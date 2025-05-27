@@ -1,0 +1,8 @@
+.mh-50 {
+  max-height: 25rem;
+}
+#banner {
+    background: #1992C2;
+    background: linear-gradient(135deg,rgba(42, 123, 155, 0.9) 0%, rgba(152, 251, 152, 0.667) 100%);
+    color: black;
+}
