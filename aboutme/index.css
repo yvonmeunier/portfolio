@@ -1,0 +1,71 @@
+/*
+Banner
+*/
+#banner {
+    /*background: linear-gradient(135deg,rgba(42, 123, 155, 0.9) 0%, rgba(152, 251, 152, 0.667) 100%);*/
+    /*background: linear-gradient(135deg,rgba(25, 146, 194, 1) 0%, rgba(152, 251, 152, 1) 50%, rgba(251, 238, 152, 0.66) 100%);*/
+    margin-top: 10rem;
+}
+
+#banner p {
+    max-width: fit-content;
+    font-size: xx-large;
+    font-family: 'Courier New', Courier, monospace;
+    color: greenyellow;
+    border-right: .15em solid greenyellow;
+}
+
+/*
+Card stuff
+*/
+
+.card {
+    text-align: left;
+    box-shadow:
+        0 2px 10px rgba(251, 238, 152, 1),
+        0 4px 10px rgba(152, 251, 152, 0.5),
+        0 8px 10px rgba(25, 146, 194, 0.6);
+    text-decoration: none;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: none;
+}
+
+.card h2 {
+    color: #1992C2;
+}
+
+.card:hover {
+    transform: translateY(-6px);
+    /*box-shadow: 0 10px 24px rgba(0, 0, 0, 0.15);*/
+
+    box-shadow:
+        0 5px 24px rgba(251, 238, 152, 1),
+        0 10px 24px rgba(152, 251, 152, 0.5),
+        0 20px 24px rgba(25, 146, 194, 0.8);
+
+}
+
+/* typewriter text, on page load */
+/* will have to manually add delay for anything else*/
+.typewriter {
+    overflow: hidden; /* Ensures the content is not revealed until the animation */
+     /* Set he typwriter cursor's color with border-right */
+    white-space: nowrap; /* Keeps the content on a single line */
+    margin: 0 auto; /* Gives that scrolling effect as the typing happens */
+    letter-spacing: .15em; /* Adjust as needed */
+    font-family: monospace;
+    animation: 
+        typing 3s steps(40, end),
+        blink-caret .75s step-end infinite;
+}
+/* The typing effect */
+@keyframes typing {
+  from { width: 0 }
+  to { width: 100% }
+}
+
+/* The typewriter cursor effect */
+@keyframes blink-caret {
+  from, to { border-color: transparent }
+  50% { border-color: greenyellow; }
+}
