@@ -8,7 +8,7 @@ The first thing I learned was about shaders. Shaders are micro programs executed
 
 ## Vertex Shaders
 
-Vertex shaders are programs that processes vertices into clip space vertices. Assuming that I use triangles to represent geometry, every time the shader generates 3 vertices the GPU uses them to make a triangle. It then figures out which pixels corresponds to the 3 points and then rasterizes the triangle aka draws it with pixels. For each pixel, it will call your Fragment shader to determine the pixel's color.
+Vertex shaders are programs that processes vertices into clip space vertices. Assuming that I use triangles to represent geometry, every time the shader generates 3 vertices the GPU uses them to make a triangle. It then figures out which pixels corresponds to the 3 points and then rasterizes the triangle aka draws it with pixels. For each pixel, it will call the Fragment shader to determine the pixel's color.
 
 In this tutorial, the provided coordinates are already in clip space.
 
