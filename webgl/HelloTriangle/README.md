@@ -12,7 +12,7 @@ Vertex shaders are programs that processes vertices into clip space vertices. As
 
 In this tutorial, the provided coordinates are already in clip space.
 
-## But what exactly is Clip Space?
+### But what exactly is Clip Space?
 Clip space is a coordinate system where (0,0,0) is the center of the cube and each axis (X,Y and Z) goes from -1 to 1. So a 2x2x2 cube and anything outside this cube is going to get clipped.
 
 ## Fragment Shaders
