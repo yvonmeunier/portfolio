@@ -4,7 +4,7 @@ The goal was to learn the basics of WebGL2, a rasterization API for websites.
 
 # So... what did I learn from this?
 
-The first thing I learned was about shaders. Shaders are micro programs executed in parallel on the GPU. So far I've learned about Vertex shaders and Fragment shaders.
+The first thing I learned was about shaders. Shaders are micro programs executed in parallel on the GPU. So far I've learned about Vertex shaders and Fragment shaders and what is their purpose. I also learned about how to setup a really basic pipeline and how to send data to the GPU.
 
 ## Vertex Shaders
 
