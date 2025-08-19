@@ -12,15 +12,15 @@ if (!gl) {
 
 // Vertex shader source
 const vertexShaderSource = `
-            attribute vec2 a_position; // the position of the vertex
+            attribute vec3 a_position; // the position of the vertex
             attribute vec3 a_color; // the color associated to the vertex, passed as a parameter from the JS code
             uniform mat3 u_transform; // the transformation (rotation in this sample) matrix
             varying vec3 v_color; // the color passed to the frag shader
             
             void main() {
-                vec3 transformed = u_transform * vec3(a_position, 1.0);
-                vec3 testColor = u_transform * a_color;
-                gl_Position = vec4(transformed.xy, 0.0, 1.0);
+                vec3 transformed = u_transform * a_position;
+                vec3 testColor = a_color;
+                gl_Position = vec4(transformed.xyz,1.0);
                 v_color = testColor;
             }
         `;
@@ -74,11 +74,11 @@ const positionLocation = gl.getAttribLocation(program, 'a_position');
 const colorLocation = gl.getAttribLocation(program, 'a_color');
 const transformLocation = gl.getUniformLocation(program, 'u_transform');
 
-// Triangle vertices (x, y)
+// Triangle vertices
 let vertices = new Float32Array([
-    0.0, 0.5,    // Top vertex
-    -0.5, -0.5,    // Bottom left
-    0.5, -0.5     // Bottom right
+    0.0, 0.5,0.0,    // Top vertex
+    -0.5, -0.5,0.0,    // Bottom left
+    0.5, -0.5,0.0     // Bottom right
 ]);
 
 // Colors for each vertex (r, g, b)
@@ -102,14 +102,90 @@ let rotation = 0;
 let isRotating = true;
 let lastTime = 0;
 
-// Matrix helper functions (simplified 2D)
-function createRotationMatrix(angle) {
+// creates a rotation matrix on the Z axis
+function createRotationMatrixZ(angle) {
     const cos = Math.cos(angle);
     const sin = Math.sin(angle);
     return new Float32Array([
         cos, -sin, 0,
         sin, cos, 0,
         0, 0, 1
+    ]);
+}
+// creates a rotation matrix on the Y axis
+function createRotationMatrixY(angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return new Float32Array([
+        cos, 0, sin,
+        0, 1, 0,
+        -sin, 0, cos
+    ]);
+}
+
+// creates a rotation matrix on the Y axis
+function createRotationMatrixX(angle) {
+    const cos = Math.cos(angle);
+    const sin = Math.sin(angle);
+    return new Float32Array([
+        1, 0, 0,
+        0, cos, -sin,
+        0, sin, cos
+    ]);
+}
+
+// creates a rotation matrix that appies yaw(Z) then pitch(Y) then roll(X)
+function createRotationMatrix(yaw, pitch, roll) {
+    const cosA = Math.cos(yaw);
+    const sinA = Math.sin(yaw);
+
+    const cosB = Math.cos(pitch);
+    const sinB = Math.sin(pitch);
+
+    const cosG = Math.cos(roll);
+    const sinG = Math.sin(roll);
+
+
+    return new Float32Array([
+        (cosA*cosB), 
+        (sinA*cosB), 
+        -sinB,
+        
+        (cosA*sinB*sinG - sinA*cosG), 
+        (sinA*sinB*sinG + cosA*cosG), 
+        (cosB*sinG),
+        
+        (cosA*sinB*cosG + sinA*sinG), 
+        (sinA*sinB*cosG - cosA*sinG), 
+        (cosB*cosG)
+    ]);
+}
+
+// creates a rotation matrix that applies roll(X) then pitch(Y) then yaw(Z)
+function createRotationMatrixEuler(roll, pitch, yaw) {
+    const cosA = Math.cos(yaw);
+    const sinA = Math.sin(yaw);
+
+    const cosB = Math.cos(pitch);
+    const sinB = Math.sin(pitch);
+
+    const cosG = Math.cos(roll);
+    const sinG = Math.sin(roll);
+
+
+     return new Float32Array([
+
+        (cosB*cosG), 
+        (cosB*sinG), 
+        -sinB,
+        
+        (sinA*sinB*cosG - cosA*sinG), 
+        (sinA*sinB*sinG + cosA*cosG), 
+        (sinA*cosB),
+
+        (cosA*sinB*cosG + sinA*sinG), 
+        (cosA*sinB*sinG - sinA*cosG), 
+        (cosA*cosB)
     ]);
 }
 
@@ -136,9 +212,8 @@ function render(currentTime) {
     // Use our shader program
     gl.useProgram(program);
 
-    // Create transformation matrix (rotation + slight scale for visibility)
-    const rotMatrix = createRotationMatrix(rotation);
-    const scaleMatrix = createScaleMatrix(0.8, 0.8);
+    // create a rotation matrix
+    const rotMatrix = createRotationMatrix(0, 0, rotation);
 
     // For this simple case, we'll just use rotation
     gl.uniformMatrix3fv(transformLocation, false, rotMatrix);
@@ -146,7 +221,7 @@ function render(currentTime) {
     // Bind position buffer and set up attribute
     gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
     gl.enableVertexAttribArray(positionLocation);
-    gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+    gl.vertexAttribPointer(positionLocation, 3, gl.FLOAT, false, 0, 0);
 
     // Bind color buffer and set up attribute
     gl.bindBuffer(gl.ARRAY_BUFFER, colorBuffer);
