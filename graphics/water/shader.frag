@@ -28,9 +28,11 @@ void main() {
     gl_FragColor = sky_color;
     
 	if (st.y < y) {
-        	vec4 w_color = mix(water_color, sky_color, 0.3 + st.y);
-        	gl_FragColor = w_color;
-        	// need some shading
+        // trensparency
+        vec4 w_color = mix(water_color, sky_color, y);
+        gl_FragColor = w_color;
+        gl_FragColor = mix(vec4(1.),vec4(0.,0.,0.,1.), y);
+        // need some shading
     }
     
 }
