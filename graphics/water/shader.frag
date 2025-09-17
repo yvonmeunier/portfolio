@@ -6,13 +6,15 @@ uniform vec2 u_resolution;
 uniform vec2 u_mouse;
 uniform float u_time;
 
-const float w = 5.0;// amount of waves
+const float w = 3.0;// amount of waves
 const float phi = 0.0;// initial state
-const float A = 0.1;// amplitude of the waves
+const float A = 0.2;// amplitude of the waves
 const float b = 0.3;// min height
 
-const vec4 sky_color = vec4(0.064,0.688,1.000,1.000);
-const vec4 water_color = vec4(0.0,0.0,1.0, 1.0);
+const vec4 sky_color = vec4(0.53,0.81,92,1.000);
+const vec4 water_color = vec4(0.0, 0.35, 0.37, 1.0);
+const vec4 transparent_water_color = vec4(0.0, 1.0, 0.85, 1.0);
+
 
 #include "lygia/generative/pnoise.glsl"
 
@@ -27,12 +29,13 @@ void main() {
 
     gl_FragColor = sky_color;
     
+    if ((st.y == y || st.y < y + 0.001) && y > A) {
+        gl_FragColor = vec4(1.);
+    }
+
 	if (st.y < y) {
-        // trensparency
-        vec4 w_color = mix(water_color, sky_color, y);
-        gl_FragColor = w_color;
-        gl_FragColor = mix(vec4(1.),vec4(0.,0.,0.,1.), y);
-        // need some shading
+        // transparency
+        gl_FragColor = mix(water_color, transparent_water_color, y);
     }
     
 }
