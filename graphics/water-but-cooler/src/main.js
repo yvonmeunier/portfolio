@@ -1,4 +1,4 @@
-import * as THREE from './vendor/three/build/three.module';
+import * as THREE from './vendor/three/build/three.module.js';
 
 const width = window.innerWidth, height = window.innerHeight;
 
