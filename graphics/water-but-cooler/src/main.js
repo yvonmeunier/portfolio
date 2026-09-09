@@ -20,7 +20,7 @@ const [vertexShader, fragmentShader] = await Promise.all([
 const material = new THREE.ShaderMaterial({
 	uniforms: {
       uTime: { value: 0 },
-      uColor: { value: new THREE.Color(0xFFFFFF) },
+      uColor: { value: new THREE.Color(0x0000FF) },
     },
 	fragmentShader : fragmentShader,
 	vertexShader : vertexShader

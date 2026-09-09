@@ -4,6 +4,7 @@ precision mediump float;
 
 uniform float uTime;
 varying vec2 vUv;
+varying vec3 dx;
 
 const float a[4] = float[4](0.3,0.25,0.2,0.2); // amplitudes
 const float w[4] = float [4](1.0,1.5,0.5,0.2); // frequencies
@@ -17,6 +18,8 @@ void main() {
 
   for(int i = 0; i < a.length(); i++) {
     z += a[i] * sin(position.x * w[i] + uTime * p[i]);
+    // d/dx = w[i] * a[i] * dx * cos(position.x * w[i] + uTime * p[i])
+    dx += w[i] * a[i] * vec3(1.0,0,0) * cos(position.x * w[i] + uTime * p[i]);
   }
 
   vec3 newPosition = vec3(position.x,position.y, z);
