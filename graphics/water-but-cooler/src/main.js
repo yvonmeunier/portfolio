@@ -4,12 +4,12 @@ const width = window.innerWidth, height = window.innerHeight;
 
 // init
 const loader = new THREE.FileLoader();
-const camera = new THREE.PerspectiveCamera( 70, width / height, 0.01, 10 );
-camera.position.z = 1;
+const camera = new THREE.PerspectiveCamera( 70, width / height, 0.01, 1000 );
+camera.position.z = 20;
 
 const scene = new THREE.Scene();
 
-const geometry = new THREE.PlaneGeometry(1,1);
+const geometry = new THREE.PlaneGeometry(10,10, 500, 500);
 
 const [vertexShader, fragmentShader] = await Promise.all([
     loader.loadAsync('./src/shaders/water.vert'),
@@ -17,11 +17,10 @@ const [vertexShader, fragmentShader] = await Promise.all([
 ]);
 
 
-//const material = new THREE.MeshBasicMaterial( { color: 0xffff00, side: THREE.FrontSide } );
 const material = new THREE.ShaderMaterial({
 	uniforms: {
       uTime: { value: 0 },
-      uColor: { value: new THREE.Color(0xffff00) },
+      uColor: { value: new THREE.Color(0xFFFFFF) },
     },
 	fragmentShader : fragmentShader,
 	vertexShader : vertexShader
