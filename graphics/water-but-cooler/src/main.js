@@ -9,7 +9,8 @@ camera.position.z = 20;
 
 const scene = new THREE.Scene();
 
-const geometry = new THREE.PlaneGeometry(10,10, 500, 500);
+const geometry = new THREE.PlaneGeometry(20,20, 500, 500);
+
 
 const [vertexShader, fragmentShader] = await Promise.all([
     loader.loadAsync('./src/shaders/water.vert'),
@@ -21,6 +22,7 @@ const material = new THREE.ShaderMaterial({
 	uniforms: {
       uTime: { value: 0 },
       uColor: { value: new THREE.Color(0x0000FF) },
+      uCamera : {value : camera.position}
     },
 	fragmentShader : fragmentShader,
 	vertexShader : vertexShader
