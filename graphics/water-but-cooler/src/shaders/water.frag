@@ -8,7 +8,7 @@ varying vec3 vN;
 varying vec3 vPos;
 
 const vec3 sunDirection = normalize(vec3(-0.45, -0.55, 1.0));
-const float shininess = 96.0;
+const float shininess = 64.0;
 
 void main() {
     vec3 N = normalize(vN);
@@ -19,7 +19,7 @@ void main() {
     float NdotL = max(dot(N, L), 0.0);
     float NdotV = max(dot(N, V), 0.0);
 
-    float F0 = 0.9;
+    float F0 = 0.5;
     float fresnel = F0 + (1.0 - F0) * pow(1.0 - NdotV, 5.0);
 
     float specularHighlight = pow(
