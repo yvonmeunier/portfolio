@@ -1,48 +1,53 @@
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 #endif
 
 uniform float uTime;
-uniform vec3 uSun;
-uniform vec3 uCamera;
 
+varying vec3 vN;
+varying vec3 vPos;
 varying vec3 vUv;
-
-varying vec3 vN;// normal vector of the surface
-varying vec3 vPos;// the computed position
 
 const float a = 0.35;
 const float w = 1.0;
 const float p = 1.0;
 
-// y is depth
-// x is width
-// z is height
-
 void main() {
+  float dydx = 0.0;
+  float dydz = 0.0;
 
-  // y(x,z,t) = A * sin(dot(d,position.xz)*w + t*p) + A * sin(y*w + t*p)
-  // dydx = a * w * cos(x*w + t*p)
-  // dydz = a * w * cos(y*w + t*p)
-  vPos = position;
-  float dydx;
-  float dydz;
+  vec3 displacedPosition = position;
 
   for(int i = 0; i < 32; i++) {
     float fi = float(i);
-    vec2 d = vec2(0.707, 0.707); // v0 : +left-right, v1 : +back-front
 
-    // with a direction vector d
-    vPos.z += a*pow(0.82, fi) * sin(dot(d, position.xy) * w*pow(1.12, fi) + p*pow(1.12, fi) * uTime);
-    dydx += a*pow(0.82, fi)* w*pow(1.12, fi) * d.x * cos(dot(d, position.xy) * w*pow(1.12, fi) + p*pow(1.12, fi) * uTime);
-    dydz += a*pow(0.82, fi) * w*pow(1.12, fi) * d.y * cos(dot(d, position.xy) * w*pow(1.12, fi) + p*pow(1.12, fi) * uTime);
+    vec2 d = normalize(vec2(0.707, 0.707));
 
+    float amplitude = a * pow(0.82, fi);
+    float frequency = w * pow(1.12, fi);
+    float phase = p * pow(1.12, fi);
+
+    float wave = dot(d, position.xy) * frequency +
+      phase * uTime;
+
+    displacedPosition.z += amplitude * sin(wave);
+
+    dydx += amplitude * frequency * d.x * cos(wave);
+    dydz += amplitude * frequency * d.y * cos(wave);
   }
 
   vec3 tangent = vec3(1.0, 0.0, dydx);
-  vec3 binormal = vec3(0.0, 1.0, dydz);
-  vN = normalize(cross(tangent, binormal));
-  vUv = vec3(modelViewMatrix * vec4(vPos, 1.0));
+  vec3 bitangent = vec3(0.0, 1.0, dydz);
 
-  gl_Position = projectionMatrix * modelViewMatrix * vec4(vPos, 1.0);
+  vec3 objectNormal = normalize(cross(tangent, bitangent));
+
+  vec4 worldPosition = modelMatrix * vec4(displacedPosition, 1.0);
+
+  vPos = worldPosition.xyz;
+
+  vN = normalize(mat3(modelMatrix) * objectNormal);
+
+  vUv = displacedPosition;
+
+  gl_Position = projectionMatrix * viewMatrix * worldPosition;
 }
