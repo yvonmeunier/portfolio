@@ -16,6 +16,7 @@ const vec3 sun = vec3(-1.0/sqrt(2.0),-1.0/sqrt(2.0),0.0);
 void main() {
 
   float diffuse = max(0.0, dot(vN, sun));
+  float fresnel = 0.0;
 
   gl_FragColor = vec4(uColor * diffuse, 1.0);
 }
