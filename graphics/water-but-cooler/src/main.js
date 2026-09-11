@@ -14,7 +14,7 @@ camera.position.set(0, -15, 20);
 
 const scene = new THREE.Scene();
 
-const geometry = new THREE.PlaneGeometry(30, 30, 512, 512);
+const geometry = new THREE.PlaneGeometry(100, 100, 2048, 2048);
 
 const [vertexShader, fragmentShader] = await Promise.all([
   loader.loadAsync('./src/shaders/water.vert'),
