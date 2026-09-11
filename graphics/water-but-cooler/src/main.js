@@ -5,11 +5,12 @@ const width = window.innerWidth, height = window.innerHeight;
 // init
 const loader = new THREE.FileLoader();
 const camera = new THREE.PerspectiveCamera( 70, width / height, 0.01, 1000 );
-camera.position.z = 20;
+camera.position.z = 50;
+camera.position.y = 5;
 
 const scene = new THREE.Scene();
 
-const geometry = new THREE.PlaneGeometry(20,20, 500, 500);
+const geometry = new THREE.PlaneGeometry(20,20,512,512);
 
 
 const [vertexShader, fragmentShader] = await Promise.all([
@@ -35,6 +36,7 @@ scene.add( mesh );
 const renderer = new THREE.WebGLRenderer( { antialias: true } );
 renderer.setSize( width, height );
 renderer.setAnimationLoop( animate );
+renderer.setClearColor(0xF5EAB9);
 document.body.appendChild( renderer.domElement );
 
 // animation

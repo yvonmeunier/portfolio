@@ -11,8 +11,11 @@ varying vec2 vUv;
 varying vec3 vN;// normal vector of the surface
 varying vec3 vPos;// the computed position
 
-const vec3 sun = vec3(1.0,0.0,0.0);
+const vec3 sun = vec3(-1.0/sqrt(2.0),-1.0/sqrt(2.0),0.0);
 
 void main() {
-  gl_FragColor = vec4(uColor, 1.0);
+
+  float diffuse = max(0.0, dot(vN, sun));
+
+  gl_FragColor = vec4(uColor * diffuse, 1.0);
 }
