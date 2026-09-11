@@ -12,7 +12,7 @@ varying vec3 vN;// normal vector of the surface
 varying vec3 vPos;// the computed position
 
 const vec3 sun = vec3(-1.0/sqrt(2.0),-1.0/sqrt(2.0),0.0);
-const float shininess = 24.0;
+const float shininess = 32.0;
 
 void main() {
   vec3 N = normalize(vN);
@@ -22,7 +22,7 @@ void main() {
 
   float NdotL = max(0.0, dot(N, L));
   float NdotV = max(0.0, dot(N, V));
-  float F0 = 0.4;
+  float F0 = 0.02;
 
   float fresnel = F0 + (1.0 - F0) * pow(1.0 -NdotV, 5.0);
 

@@ -28,7 +28,7 @@ void main() {
   float dydx;
   float dydz;
 
-  for(int i = 0; i < 16; i++) {
+  for(int i = 0; i < 32; i++) {
     float fi = float(i);
     vec2 d = vec2(0.707, 0.707); // v0 : +left-right, v1 : +back-front
 
